@@ -22,55 +22,46 @@ const leftArrow = document.querySelector('.arrow_left');
 const rightArrow = document.querySelector('.arrow_right');
 const dots = document.querySelectorAll('.dot');
 
-let currentDots = 0;
+let currentImg = 0;
 
-// Fonction pour mettre à jour les points indicateurs
-function updateDots(index) {
+//Les points indicateurs
+function MAJDots(index) {
 	dots.forEach((dot, i) => {
 		if (i === index) {
-			dot.classList.add('dot_selected'); // Ajoutez la classe pour le point actuel
+			dot.classList.add('dot_selected'); // Ajoutez
 		} else {
-			dot.classList.remove('dot_selected'); // Supprimez la classe pour les autres points
+			dot.classList.remove('dot_selected'); // Supprimez
 		}
 	});
 }
 
-// Fonction pour mettre à jour les points indicateurs, l'image et le texte
-function updateCarousel(index, direction) {
+function MAJCarousel(index, direction) {
 
-	//correction du bug pour la première et la dernière image
-	if (currentDots === -1 && direction === 'left') {
-		currentDots = slides.length - 1;
-	} else if (currentDots === slides.length && direction === 'right') {
-		currentDots = 0;
+	if (currentImg === -1 && direction === 'left') {
+		currentImg = slides.length - 1;
+	} else if (currentImg === slides.length && direction === 'right') {
+		currentImg = 0;
 	}
 
-	// Mettre à jour l'image
-	const imagePath = `assets/images/slideshow/${slides[currentDots].image}`;
+	
+	const imagePath = `assets/images/slideshow/${slides[currentImg].image}`;
 	imgBanner.src = imagePath;
-	imgBanner.alt = `Slide ${currentDots + 1}`;
+	imgBanner.alt = `Slide ${currentImg + 1}`;
 
-	// Mettre à jour le texte
-	const tagLine = slides[currentDots].tagLine;
+	
+	const tagLine = slides[currentImg].tagLine;
 	document.querySelector('p').innerHTML = tagLine;
-
-	console.log(`Clic sur la flèche ${direction}`);
 }
 
-// Gestionnaire d'événement pour le clic sur la flèche gauche
 leftArrow.addEventListener('click', function () {
-    currentDots = (currentDots - 1);
-    updateCarousel(currentDots, 'left');
-    updateDots(currentDots); // Mettez à jour les points indicateurs
+	currentImg = (currentImg - 1);
+	MAJCarousel(currentImg, 'left');
+	MAJDots(currentImg); // Mettez à jour les points indicateurs
 });
 
-// Gestionnaire d'événement pour le clic sur la flèche droite
+
 rightArrow.addEventListener('click', function () {
-    currentDots = (currentDots + 1) ;
-    updateCarousel(currentDots, 'right');
-    updateDots(currentDots); // Mettez à jour les points indicateurs
+	currentImg = (currentImg + 1);
+	MAJCarousel(currentImg, 'right');
+	MAJDots(currentImg);
 });
-
-// Afficher la première diapositive au chargement de la page
-updateCarousel(currentDots, 'démarrage');
-updateDots(currentDots); // Mettez à jour les points indicateurs pour la première diapositive
